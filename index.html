@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You, My Love 💖</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Authentication Protection -->
+  <script>
+    // Check if user is authenticated
+    function checkAuth() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        // Redirect to login if not authenticated
+        window.location.href = 'auth.html';
+      }
+    }
+    // Run check immediately
+    checkAuth();
+  </script>
+</head>
+<body>
+
+  <!-- Floating hearts container -->
+  <div class="hearts-container" id="heartsContainer"></div>
+
+  <!-- User Profile Header -->
+  <div class="user-profile-header">
+    <div class="profile-left">
+      <span id="userName" class="user-name"></span>
+    </div>
+    <button class="logout-btn" onclick="handleLogout()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+
+  <!-- Hero -->
+ <!-- ========== NEW SUPER ROMANTIC HERO ========== -->
+<section class="hero">
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <div class="hero-message">
+        <div class="hero-message-title">A love note for you</div>
+        <p class="hero-message-text">Amar atma ebong apnar atma chirakaler jonno joto ache. Ei protyek muhurt amader hridoyer shobdo hoye jay.</p>
+        <p class="hero-message-note">Let the story of us glow softly through every smile and every captured memory.</p>
+      </div>
+
+      <div class="hero-image-card">
+        <div class="hero-image-frame">
+          <img src="image17.png" alt="Featured memory">
+        </div>
+      </div>
+
+      <div class="hero-copy">
+        <div class="hero-role">For My Dearest</div>
+        <h1>Every memory is a piece of our story</h1>
+        <p>Let this portrait be the first chapter of a gallery made with your heart in mind.</p>
+        <div class="hero-actions">
+          <a class="hero-button" href="#gallery-section">View Gallery</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-marquee bottom-marquee">
+    <div class="marquee-track reverse">
+      <img src="image11.jpg" alt="Memory">
+      <img src="image12.jpg" alt="Memory">
+      <img src="image13.jpg" alt="Memory">
+      <img src="image14.jpg" alt="Memory">
+      <img src="image15.jpg" alt="Memory">
+      <img src="image11.jpg" alt="Memory">
+      <img src="image12.jpg" alt="Memory">
+      <img src="image13.jpg" alt="Memory">
+      <img src="image14.jpg" alt="Memory">
+      <img src="image15.jpg" alt="Memory">
+    </div>
+  </div>
+</section>
+<!-- ========== END OF NEW HERO ========== -->
+
+  
+  <!-- Our Story Timeline -->
+  <section>
+    <h2 class="section-title">Our Journey Together</h2>
+    <div class="timeline">
+      <!-- Timeline item 1 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <img src="images2.jpg" alt="First meeting">
+          <div class="date">📅 The day we met</div>
+          <div class="story-note">I still remember how my heart skipped a beat.</div>
+        </div>
+      </div>
+
+
+
+      <!-- Timeline item 2 (even, aligned right) -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <img src="images3.jpg" alt="First adventure">
+          <div class="date">🌍 Our first trip</div>
+          <div class="story-note">We got lost and found something more beautiful.</div>
+        </div>
+      </div>
+
+
+
+      <!-- Add more timeline items similarly -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <img src="images4.png" alt="Favorite memory">
+          <div class="date">💞 My favorite memory</div>
+          <div class="story-note">That quiet moment when everything felt right.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+<!-- Photo Gallery -->
+  <section id="gallery-section">
+    <h2 class="section-title">Moments We Cherish</h2>
+    <div class="gallery" id="galleryGrid">
+      <!-- Use the other unused photos in the main Memory cards -->
+      <div class="card" onclick="openLightbox('images05.jpg', 'A playful moment we won’t forget')">
+        <img src="images05.jpg" alt="Memory 1">       
+        <div class="note-overlay">A playful moment we won’t forget</div>
+      </div>
+      <div class="card" onclick="openLightbox('images5.jpg', 'Your laughter brightens every day')">
+        <img src="images5.jpg" alt="Memory 2">
+        <div class="note-overlay">Your laughter brightens every day</div>
+      </div>
+      <div class="card" onclick="openLightbox('images6.jpg', 'Our cozy evening under the stars')">
+        <img src="images6.jpg" alt="Memory 3">
+        <div class="note-overlay">Our cozy evening under the stars</div>
+      </div>
+      <div class="card" onclick="openLightbox('images7.jpg', 'Every adventure feels better with you')">
+        <img src="images7.jpg" alt="Memory 4">
+        <div class="note-overlay">Every adventure feels better with you</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Love Letter -->
+  <section>
+    <h2 class="section-title">A Letter For You</h2>
+    <div class="letter-section">
+      <p>My love, every picture of you is a poem I never want to stop reading.</p>
+      <p>In your eyes I’ve found my home. In your smile, my forever.</p>
+      <p>This little gallery is just a glimpse of how beautiful you make my world — simply by being in it.</p>
+      <p>I love you more than any website could ever show. 💕</p>
+      <div class="signature">Forever yours,<br>[NILA]</div>
+    </div>
+  </section>
+
+
+  <footer>
+    <p>Made with all my heart — just for you 🌹</p>
+  </footer>
+
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <button class="nav prev" onclick="navigateLightbox(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="nav next" onclick="navigateLightbox(1)"><i class="fas fa-chevron-right"></i></button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="note" id="lightboxNote"></div>
+  </div>
+
+
+  <!-- Music Player (add your song file as 'lovesong.mp3' in the folder, or change src) -->
+  <audio id="bgMusic" loop>
+    <source src="lovesong.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
+  <div class="music-toggle" id="musicToggle">
+    <i class="fas fa-music"></i>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>

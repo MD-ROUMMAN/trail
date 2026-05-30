@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - For You, My Love 💖</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Animation */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 247, 255, 0.08), transparent);
+      border-radius: 50%;
+      top: -150px;
+      left: -150px;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 0, 106, 0.08), transparent);
+      border-radius: 50%;
+      bottom: -150px;
+      right: -150px;
+      animation: float 25s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(30px, -30px); }
+      50% { transform: translate(0, -60px); }
+      75% { transform: translate(-30px, -30px); }
+    }
+
+    .auth-container {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* MAIN CARD */
+    .login-card {
+      position: relative;
+      width: 380px;
+      padding: 60px 50px;
+      background: #1a1b2e;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    /* Card Hover Effect - Show Full Content */
+    .login-card:hover {
+      padding: 60px 50px;
+    }
+
+    /* OUTER BORDER - Animated Gradient */
+    .login-card::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 20px;
+      background: linear-gradient(
+        90deg,
+        #ff006a,
+        #00f7ff,
+        #ff006a,
+        #00f7ff
+      );
+      background-size: 300% 300%;
+      animation: borderMove 6s linear infinite;
+      z-index: -2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Show border on hover */
+    .login-card:hover::before {
+      opacity: 1;
+    }
+
+    /* INNER BORDER */
+    .login-card::after {
+      content: "";
+      position: absolute;
+      inset: 0px;
+      border: 2px solid;
+      border-image: linear-gradient(90deg, #00f7ff, #ff006a, #00f7ff, #ff006a) 1;
+      border-radius: 20px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Show inner border on hover */
+    .login-card:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes borderMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    /* CARD CONTENT */
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hide form content initially - only show title */
+    .form-section.active .login-form,
+    .form-section.active .login-links,
+    .form-section.active .admin-link,
+    .form-section.active #loginError,
+    .form-section.active #loginSuccess {
+      display: none !important;
+      transition: all 0.3s ease;
+    }
+
+    /* Show form content on card hover */
+    .login-card:hover .form-section.active .login-form {
+      display: flex !important;
+      animation: slideIn 0.3s ease;
+    }
+
+    .login-card:hover .form-section.active .login-links,
+    .login-card:hover .form-section.active .admin-link {
+      display: block !important;
+      animation: slideIn 0.3s ease;
+    }
+
+    /* LOGIN TITLE */
+    .login-title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 8px;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .login-title .heart {
+      color: #ff006a;
+      text-shadow: 0 0 15px #ff006a;
+      margin: 0 10px;
+    }
+
+    /* FORM */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 13px;
+    }
+
+    /* INPUT BOX */
+    .input-field {
+      position: relative;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(0, 247, 255, 0.3);
+      background: rgba(26, 27, 46, 0.9);
+      border-radius: 30px;
+      color: white;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-field input::placeholder {
+      color: #888;
+    }
+
+    .input-field input:focus {
+      box-shadow: 0 0 20px rgba(0, 247, 255, 0.5), inset 0 0 10px rgba(0, 247, 255, 0.1);
+      border-color: #00f7ff;
+    }
+
+    /* SIGN IN BUTTON */
+    .sign-in-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    .sign-in-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .sign-in-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* LINKS SECTION */
+    .login-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: none;
+      font-size: 12px;
+    }
+
+    .login-links a {
+      text-decoration: none;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .forgot-password {
+      color: #888;
+      font-size: 12px;
+    }
+
+    .forgot-password:hover {
+      color: #667eea;
+    }
+
+    .sign-up-link {
+      color: #764ba2;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .sign-up-link:hover {
+      color: #667eea;
+    }
+
+    .admin-link {
+      color: #764ba2;
+      font-size: 12px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .admin-link:hover {
+      color: #667eea;
+    }
+
+    /* MESSAGES */
+    .error-message, .success-message {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+      display: none !important;
+      height: 0;
+      padding: 0;
+      margin: 0;
+    }
+
+    .error-message:not(:empty),
+    .success-message:not(:empty) {
+      display: block !important;
+      height: auto;
+      padding: 10px;
+      margin-top: 15px;
+    }
+
+    .error-message {
+      background: rgba(255, 0, 106, 0.1);
+      color: #ff6b9d;
+      border: 1px solid rgba(255, 0, 106, 0.3);
+    }
+
+    .success-message {
+      background: rgba(0, 247, 255, 0.1);
+      color: #00f7ff;
+      border: 1px solid rgba(0, 247, 255, 0.3);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FORM SECTION */
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .form-section .input-field {
+      margin-bottom: 15px;
+    }
+
+    .form-section button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    .form-section button[type="submit"]:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-section .error-message,
+    .form-section .success-message {
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .login-card {
+        width: 320px;
+        padding: 40px 30px;
+      }
+
+      .login-title {
+        font-size: 20px;
+        letter-spacing: 6px;
+        margin-bottom: 30px;
+      }
+
+      .login-form {
+        gap: 15px;
+        font-size: 12px;
+      }
+
+      .input-field input {
+        padding: 10px 14px;
+        font-size: 12px;
+      }
+
+      .sign-in-btn {
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      .login-links {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="login-card">
+      <div class="card-content">
+        
+        <!-- LOGIN FORM (DEFAULT) -->
+        <form id="loginForm" class="form-section active" onsubmit="handleLogin(event)">
+          <div class="login-title">
+            <span class="heart">💕</span>LOGIN<span class="heart">💕</span>
+          </div>
+
+          <div class="login-form">
+            <div class="input-field">
+              <input type="text" id="loginUsername" placeholder="Username" required>
+            </div>
+
+            <div class="input-field">
+              <input type="password" id="loginPassword" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="sign-in-btn">Sign In</button>
+
+            <div id="loginError" class="error-message"></div>
+            <div id="loginSuccess" class="success-message"></div>
+          </div>
+
+          <div class="login-links">
+            <a href="#" class="forgot-password" onclick="showForm('recover', event)">Forgot Password</a>
+            <a href="#" class="sign-up-link" onclick="showForm('signup', event)">Sign up</a>
+          </div>
+
+          <div class="admin-link">
+            <a href="#" style="text-decoration: none;" onclick="showForm('admin', event)"><i class="fas fa-lock"></i> Admin Portal</a>
+          </div>
+        </form>
+
+        <!-- SIGNUP FORM (HIDDEN) -->
+        <form id="signupForm" class="form-section" onsubmit="handleSignup(event)">
+          <div class="login-title" style="font-size: 24px; margin-bottom: 25px;">
+            <span class="heart">✨</span>SIGN UP<span class="heart">✨</span>
+          </div>
+
+          <div class="login-form">
+            <div class="input-field">
+              <input type="text" id="signupName" placeholder="Full Name" required>
+            </div>
+
+            <div class="input-field">
+              <input type="email" id="signupEmail" placeholder="Email" required>
+            </div>
+
+            <div class="input-field">
+              <input type="tel" id="signupPhone" placeholder="Phone" required>
+            </div>
+
+            <div class="input-field">
+              <input type="text" id="signupUsername" placeholder="Username" required>
+            </div>
+
+            <div class="input-field">
+              <input type="password" id="signupPassword" placeholder="Password" required>
+            </div>
+
+            <div class="input-field">
+              <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
+            </div>
+
+            <button type="submit">Create Account</button>
+
+            <div id="signupError" class="error-message"></div>
+            <div id="signupSuccess" class="success-message"></div>
+          </div>
+
+          <div class="login-links">
+            <a href="#" class="forgot-password" onclick="showForm('login', event)">← Back to Login</a>
+          </div>
+        </form>
+
+        <!-- PASSWORD RECOVERY FORM (HIDDEN) -->
+        <form id="recoveryForm" class="form-section" onsubmit="handlePasswordRecovery(event)">
+          <div class="login-title" style="font-size: 24px; margin-bottom: 25px;">
+            <span class="heart">🔑</span>RECOVER<span class="heart">🔑</span>
+          </div>
+
+          <div class="login-form">
+            <div class="input-field">
+              <input type="text" id="recoveryUsername" placeholder="Username" required>
+            </div>
+
+            <p style="color: #888; font-size: 12px; margin: 10px 0; text-align: center;">
+              Password will be sent to your email
+            </p>
+
+            <button type="submit">Recover Password</button>
+
+            <div id="recoveryError" class="error-message"></div>
+            <div id="recoverySuccess" class="success-message"></div>
+          </div>
+
+          <div class="login-links">
+            <a href="#" class="forgot-password" onclick="showForm('login', event)">← Back to Login</a>
+          </div>
+        </form>
+
+        <!-- ADMIN LOGIN FORM (HIDDEN) -->
+        <form id="adminForm" class="form-section" onsubmit="handleAdminLogin(event)">
+          <div class="login-title" style="font-size: 24px; margin-bottom: 25px;">
+            <span class="heart">🔐</span>ADMIN<span class="heart">🔐</span>
+          </div>
+
+          <div class="login-form">
+            <div class="input-field">
+              <input type="text" id="adminUsername" placeholder="Admin Username" required>
+            </div>
+
+            <div class="input-field">
+              <input type="password" id="adminPassword" placeholder="Admin Password" required>
+            </div>
+
+            <button type="submit">Enter Admin Panel</button>
+
+            <div id="adminError" class="error-message"></div>
+            <div id="adminSuccess" class="success-message"></div>
+          </div>
+
+          <div class="login-links">
+            <a href="#" class="forgot-password" onclick="showForm('login', event)">← Back to Login</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show/hide forms
+    function showForm(formType, e) {
+      if (e) e.preventDefault();
+      
+      // Hide all forms
+      document.querySelectorAll('.form-section').forEach(form => {
+        form.classList.remove('active');
+      });
+      
+      // Show selected form
+      if (formType === 'login') {
+        document.getElementById('loginForm').classList.add('active');
+      } else if (formType === 'signup') {
+        document.getElementById('signupForm').classList.add('active');
+      } else if (formType === 'recover') {
+        document.getElementById('recoveryForm').classList.add('active');
+      } else if (formType === 'admin') {
+        document.getElementById('adminForm').classList.add('active');
+      }
+    }
+
+    // Initialize localStorage
+    function initializeAuth() {
+      if (!localStorage.getItem('pendingSignups')) {
+        localStorage.setItem('pendingSignups', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('approvedUsers')) {
+        localStorage.setItem('approvedUsers', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('rejectedUsers')) {
+        localStorage.setItem('rejectedUsers', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('admin')) {
+        localStorage.setItem('admin', JSON.stringify({
+          username: 'admin',
+          password: 'admin123'
+        }));
+      }
+      if (!localStorage.getItem('currentUser')) {
+        localStorage.setItem('currentUser', JSON.stringify(null));
+      }
+    }
+
+    // Handle Login
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errorEl = document.getElementById('loginError');
+      const successEl = document.getElementById('loginSuccess');
+
+      errorEl.textContent = '';
+      successEl.textContent = '';
+
+      if (!username || !password) {
+        errorEl.textContent = '⚠️ Please enter username and password';
+        return;
+      }
+
+      const approvedUsers = JSON.parse(localStorage.getItem('approvedUsers')) || [];
+      const user = approvedUsers.find(u => u.username === username && u.password === password);
+
+      if (!user) {
+        errorEl.textContent = '❌ Invalid username/password or account not approved';
+        return;
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify({
+        username: user.username,
+        email: user.email,
+        name: user.name
+      }));
+
+      successEl.textContent = '✅ Login successful! Redirecting...';
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+    }
+
+    // Handle Signup
+    function handleSignup(event) {
+      event.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const username = document.getElementById('signupUsername').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('signupConfirmPassword').value;
+      const errorEl = document.getElementById('signupError');
+      const successEl = document.getElementById('signupSuccess');
+
+      errorEl.textContent = '';
+      successEl.textContent = '';
+
+      if (!name || !email || !phone || !username || !password || !confirmPassword) {
+        errorEl.textContent = '⚠️ Please fill all fields';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        errorEl.textContent = '❌ Passwords do not match';
+        return;
+      }
+
+      if (password.length < 6) {
+        errorEl.textContent = '❌ Password must be at least 6 characters';
+        return;
+      }
+
+      const approvedUsers = JSON.parse(localStorage.getItem('approvedUsers')) || [];
+      const pendingSignups = JSON.parse(localStorage.getItem('pendingSignups')) || [];
+
+      if (approvedUsers.find(u => u.username === username) || pendingSignups.find(u => u.username === username)) {
+        errorEl.textContent = '❌ Username already exists';
+        return;
+      }
+
+      const newSignup = {
+        id: Date.now(),
+        name, email, phone, username, password,
+        signupDate: new Date().toLocaleString(),
+        status: 'pending'
+      };
+
+      pendingSignups.push(newSignup);
+      localStorage.setItem('pendingSignups', JSON.stringify(pendingSignups));
+
+      successEl.textContent = '✅ Signup successful! Waiting for admin approval...';
+      
+      document.getElementById('signupName').value = '';
+      document.getElementById('signupEmail').value = '';
+      document.getElementById('signupPhone').value = '';
+      document.getElementById('signupUsername').value = '';
+      document.getElementById('signupPassword').value = '';
+      document.getElementById('signupConfirmPassword').value = '';
+
+      setTimeout(() => showForm('login'), 2000);
+    }
+
+    // Handle Password Recovery
+    function handlePasswordRecovery(event) {
+      event.preventDefault();
+      const username = document.getElementById('recoveryUsername').value.trim();
+      const errorEl = document.getElementById('recoveryError');
+      const successEl = document.getElementById('recoverySuccess');
+
+      errorEl.textContent = '';
+      successEl.textContent = '';
+
+      if (!username) {
+        errorEl.textContent = '⚠️ Please enter your username';
+        return;
+      }
+
+      const approvedUsers = JSON.parse(localStorage.getItem('approvedUsers')) || [];
+      const user = approvedUsers.find(u => u.username === username);
+
+      if (!user) {
+        errorEl.textContent = '❌ Username not found or account not approved';
+        return;
+      }
+
+      successEl.textContent = `✅ Password sent to ${user.email}. Demo: "${user.password}"`;
+      document.getElementById('recoveryUsername').value = '';
+
+      setTimeout(() => showForm('login'), 3000);
+    }
+
+    // Handle Admin Login
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('adminUsername').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const errorEl = document.getElementById('adminError');
+      const successEl = document.getElementById('adminSuccess');
+
+      errorEl.textContent = '';
+      successEl.textContent = '';
+
+      if (!username || !password) {
+        errorEl.textContent = '⚠️ Please enter admin credentials';
+        return;
+      }
+
+      const admin = JSON.parse(localStorage.getItem('admin'));
+
+      if (admin.username !== username || admin.password !== password) {
+        errorEl.textContent = '❌ Invalid admin credentials';
+        return;
+      }
+
+      localStorage.setItem('adminSession', JSON.stringify({
+        isLoggedIn: true,
+        loginTime: new Date().toLocaleString()
+      }));
+
+      successEl.textContent = '✅ Admin login successful! Redirecting...';
+      setTimeout(() => {
+        window.location.href = 'admin.html';
+      }, 1500);
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', initializeAuth);
+  </script>
+</body>
+</html>
